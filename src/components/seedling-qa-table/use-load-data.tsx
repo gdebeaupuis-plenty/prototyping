@@ -1,7 +1,7 @@
 import React from 'react';
 import { AgGridColumnProps } from '@ag-grid-community/react';
 import * as faker from 'faker';
-import { Checkbox }  from '@material-ui/core';
+import { Checkbox } from '@material-ui/core';
 
 interface ColumnDef {
   headerName: string;
@@ -14,28 +14,28 @@ function CellCheckBoxRender() {
   const [checked, setChecked] = React.useState(true);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked)
+    setChecked(event.target.checked);
   };
 
-  return  <Checkbox checked={checked} onChange={handleChange} />
-};
+  return <Checkbox checked={checked} onChange={handleChange} />;
+}
 
 function CellCheckAllRender() {
   const [checked, setChecked] = React.useState(true);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked)
+    setChecked(event.target.checked);
   };
 
-  return  <Checkbox color="primary" checked={checked} onChange={handleChange} />
+  return <Checkbox color="primary" checked={checked} onChange={handleChange} />;
 }
 
 /**
  * Constants
  */
 
-const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F']// 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T'];
-const NUMBERS = [1]//, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F']; // 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T'];
+const NUMBERS = [1]; //, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 /**
  * Generate columnDefs
@@ -48,8 +48,8 @@ function generateColumnsDefs(columnDefs: any[]) {
         headerName: `${letter.toUpperCase()}${number}`,
         field: `${letter.toUpperCase()}${number}`,
         width: 100,
-        cellRendererFramework: CellCheckBoxRender
-      })
+        cellRendererFramework: CellCheckBoxRender,
+      });
     });
   });
 }
@@ -88,7 +88,7 @@ export const useLoadData = () => {
     headrName: 'Check All',
     field: 'checkAll',
     width: 100,
-    cellRendererFramework: CellCheckAllRender
+    cellRendererFramework: CellCheckAllRender,
   });
 
   generateRowData(rowData, columnDefs);
@@ -97,4 +97,4 @@ export const useLoadData = () => {
     columnDefs,
     rowData,
   };
-}
+};

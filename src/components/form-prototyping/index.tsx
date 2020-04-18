@@ -10,6 +10,8 @@ import {
   useTheme,
   FormHelperText,
   Snackbar,
+  TextField,
+  Checkbox,
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 
@@ -119,6 +121,33 @@ export const FormPrototyping: React.FC = () => {
       setSnackbarData({ open: true, severity: 'error', message: 'An error occured, unable to submit.'  });
     }
   }
+
+  const formDefs = [
+    {
+      name: 'age',
+      label: 'Age',
+      component: TextField,
+      required: true,
+      validations: [
+        (value) => value,
+        (value) => value > 18, () => 'You must be above 18.',
+        (value) => value < 120, (value) => `${value} is not a realistic age. Enter an age below 120.`
+      ]
+    },
+    {
+      name: 'notes',
+      label: 'Notes',
+      component: TextField,
+    },
+    {
+      name: 'public',
+      label: 'Public:',
+      component: Checkbox,
+    },
+    {
+      name: 'genre'
+    }
+  ];
 
   /**
    * Render
