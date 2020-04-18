@@ -6,8 +6,6 @@ import { AllCommunityModules, GridReadyEvent, GridApi } from '@ag-grid-community
 import { columnDefs, rowData } from './configuration';
 import { useStyles } from './styles';
 
-import { SeedlingQaRow } from './types';
-
 const calculateWidth = (columnDefs) =>
   columnDefs.map((header) => header.width).reduce((sum: number, i: number) => sum + i, 0) + 2;
 
@@ -21,7 +19,7 @@ export function SeedlingQaTable() {
   useStyles();
   const theme = useTheme();
   const width = calculateWidth(columnDefs);
-  const [gridApi, setGridApi] = React.useState<GridApi>();
+  const [, setGridApi] = React.useState<GridApi>();
   const onGridReady = (event: GridReadyEvent) => setGridApi(event.api);
   const onClick = (event: React.MouseEvent<HTMLElement>) => console.log();
 
