@@ -2,7 +2,8 @@ import React from 'react';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import { SeedlingQaTable } from './components/seedling-qa-table';
+import { Tigris } from './components/seedling-qa-tables/tigris';
+import { Orca } from './components/seedling-qa-tables/orca';
 import { FormPrototyping } from './components/form-prototyping';
 
 function App() {
@@ -12,8 +13,9 @@ function App() {
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Switch>
-          <Route exact path='/' component={SeedlingQaTable} />
-          <Route exact path='/select' component={FormPrototyping} />
+          <Route exact path="/seedling-qa/tigris" component={Tigris} />
+          <Route exact path="/seedling-qa/orca" component={Orca} />
+          <Route exact path="/select" component={FormPrototyping} />
         </Switch>
       </BrowserRouter>
     </ThemeProvider>
