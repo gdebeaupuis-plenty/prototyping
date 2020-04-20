@@ -15,25 +15,31 @@ import {
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 
-const useStyles = makeStyles({
-  formControl: {
-    width: '100%'
-  }
+const formControlUseStyles = makeStyles({
+  root: {
+    width: '100%',
+  },
+});
+
+const selectUseStyles = makeStyles({
+  root: {
+    color: 'red',
+  },
 });
 
 interface FormInputValues {
   number: number;
   word: string;
-};
+}
 interface FormInputErrors {
   number?: string;
   word?: string;
-};
+}
 
 interface FormInputBoolConfig {
   number: boolean;
   word: boolean;
-};
+}
 
 interface SnackbarData {
   open?: boolean;
@@ -45,15 +51,17 @@ interface InputValidation {
   inputName: string;
   validate: (value) => boolean;
   error: (value) => string;
-};
+}
 
-function renderInputError(errorMessage: string | undefined) : JSX.Element | undefined {
-  return Boolean(errorMessage) && (<FormHelperText>{errorMessage}</FormHelperText>);
-};
+function renderInputError(errorMessage: string | undefined): JSX.Element | undefined {
+  return Boolean(errorMessage) && <FormHelperText>{errorMessage}</FormHelperText>;
+}
 
 export const FormPrototyping: React.FC = () => {
-  const classes = useStyles();
+  const formControlClasses = formControlUseStyles();
+  const selectClasses = selectUseStyles();
   const theme = useTheme();
+  const [checkboxState, setCheckboxState] = React.useState(false);
 
   /**
    * Snackbar state
@@ -98,7 +106,6 @@ export const FormPrototyping: React.FC = () => {
     return allValid;
   };
 
-
   /**
    * Handlers
    */
@@ -106,8 +113,8 @@ export const FormPrototyping: React.FC = () => {
   const onChange = (key: string) => (event: React.ChangeEvent<{ value: unknown }>) => {
     const newData = {
       ...data,
-      [key]: event.target.value
-    }
+      [key]: event.target.value,
+    };
     setData(newData);
   };
 
@@ -118,9 +125,9 @@ export const FormPrototyping: React.FC = () => {
     if (isFormValid(data, validations)) {
       setSnackbarData({ open: true, severity: 'success' });
     } else {
-      setSnackbarData({ open: true, severity: 'error', message: 'An error occured, unable to submit.'  });
+      setSnackbarData({ open: true, severity: 'error', message: 'An error occured, unable to submit.' });
     }
-  }
+  };
 
   const formDefs = [
     {
@@ -130,9 +137,11 @@ export const FormPrototyping: React.FC = () => {
       required: true,
       validations: [
         (value) => value,
-        (value) => value > 18, () => 'You must be above 18.',
-        (value) => value < 120, (value) => `${value} is not a realistic age. Enter an age below 120.`
-      ]
+        (value) => value > 18,
+        () => 'You must be above 18.',
+        (value) => value < 120,
+        (value) => `${value} is not a realistic age. Enter an age below 120.`,
+      ],
     },
     {
       name: 'notes',
@@ -145,8 +154,8 @@ export const FormPrototyping: React.FC = () => {
       component: Checkbox,
     },
     {
-      name: 'genre'
-    }
+      name: 'genre',
+    },
   ];
 
   /**
@@ -154,7 +163,7 @@ export const FormPrototyping: React.FC = () => {
    */
   return (
     <Box display="flex" justifyContent="center" marginTop={theme.spacing(2)}>
-      { snackbarData.open && (
+      {snackbarData.open && (
         <Snackbar open={snackbarData.open} autoHideDuration={3000} onClose={() => setSnackbarData({ open: false })}>
           <Alert severity={snackbarData.severity}>{snackbarData.message || 'Form submitted successfully!'}</Alert>
         </Snackbar>
@@ -162,9 +171,11 @@ export const FormPrototyping: React.FC = () => {
 
       <Box width="300px" component="form" display="flex" flexDirection="column" alignItems="center" onSubmit={onSubmit}>
         <Box marginBottom={theme.spacing(0.25)} width="100%">
-          <FormControl className={classes.formControl} required={requireds.number} error={Boolean(errors.number)}>
+          <FormControl classes={formControlClasses} required={requireds.number} error={Boolean(errors.number)}>
             <InputLabel id="label-number">Number:</InputLabel>
             <Select
+              classes={selectClasses}
+              // className={selectClasses.root}
               id="input-number"
               labelId="label-number"
               value={data.number || ''}
@@ -175,31 +186,28 @@ export const FormPrototyping: React.FC = () => {
               <MenuItem value={20}>20</MenuItem>
               <MenuItem value={30}>30</MenuItem>
             </Select>
-            { renderInputError(errors.number) }
+            {renderInputError(errors.number)}
           </FormControl>
         </Box>
 
         <Box marginBottom={theme.spacing(0.25)} width="100%">
-          <FormControl className={classes.formControl} required={requireds.word} error={Boolean(errors.word)}>
+          <FormControl classes={formControlClasses} required={requireds.word} error={Boolean(errors.word)}>
             <InputLabel id="label-word">Word:</InputLabel>
-            <Select
-              id="input-word"
-              labelId="label-word"
-              value={data.word || ''}
-              onChange={onChange('word')}
-            >
+            <Select id="input-word" labelId="label-word" value={data.word || ''} onChange={onChange('word')}>
               <MenuItem value="icecream">Icecream</MenuItem>
               <MenuItem value="cake">Cake</MenuItem>
               <MenuItem value="smoothie">Smoothie</MenuItem>
             </Select>
-            { renderInputError(errors.word) }
+            {renderInputError(errors.word)}
           </FormControl>
         </Box>
 
         <Box alignSelf="flex-end">
-          <Button color="primary" type="submit" variant="contained">Submit</Button>
+          <Button color="primary" type="submit" variant="contained">
+            Submit
+          </Button>
         </Box>
       </Box>
     </Box>
-  )
+  );
 };

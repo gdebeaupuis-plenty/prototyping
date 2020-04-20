@@ -1,10 +1,24 @@
 import React from 'react';
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { ThemeProvider, Card, createMuiTheme, Box } from '@material-ui/core';
+import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 
-import { Tigris } from './components/seedling-qa-tables/tigris';
-import { Orca } from './components/seedling-qa-tables/orca';
+import { Tigris } from './components/seedling-qa-table/tables/tigris';
 import { FormPrototyping } from './components/form-prototyping';
+
+function Home() {
+  return (
+    <Box display="flex" justifyContent="center" marginTop="4rem">
+      <Card>
+        <Box display="flex" alignItems="center" flexDirection="column">
+          <Link to="/ag-grid-pure-table/tigris">Seedling QA AG Table: Tigris</Link>
+          <Link to="/seedling-qa/tigris">Seedling QA Table: Tigris</Link>
+          <Link to="/seedling-qa/orca">Seedling QA Table: Orca</Link>
+          <Link to="/select">Form prototyping</Link>
+        </Box>
+      </Card>
+    </Box>
+  );
+}
 
 function App() {
   const theme = createMuiTheme();
@@ -13,8 +27,8 @@ function App() {
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Switch>
+          <Route exact path="/" component={Home} />
           <Route exact path="/seedling-qa/tigris" component={Tigris} />
-          <Route exact path="/seedling-qa/orca" component={Orca} />
           <Route exact path="/select" component={FormPrototyping} />
         </Switch>
       </BrowserRouter>

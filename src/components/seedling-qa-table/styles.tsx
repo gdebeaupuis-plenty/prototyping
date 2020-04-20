@@ -12,6 +12,9 @@ export const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
         alignItems: 'center',
       },
+      '& .ag-cell.ag-cell-inline-editing': {
+        height: '100%',
+      },
       '& .ag-react-container': {
         width: '100%',
         height: '100%',

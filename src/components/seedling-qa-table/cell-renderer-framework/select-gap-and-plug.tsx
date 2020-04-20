@@ -3,9 +3,20 @@ import { makeStyles, Select, MenuItem } from '@material-ui/core';
 import { ICellRendererParams } from '@ag-grid-community/all-modules';
 
 const useStyles = makeStyles({
-  root: {
+  inputRoot: {
     width: '100%',
+    '&:before': {
+      borderBottom: 0,
+    },
+    '&:focus:before, &:hover:before': {
+      borderBottom: '0 !important',
+    },
+  },
+  root: {
     fontSize: '14px',
+    '&:focus': {
+      background: 'transparent',
+    },
   },
 });
 
@@ -20,7 +31,7 @@ export const SelectGapAndPlug: React.FC<ICellRendererParams> = (props) => {
   };
 
   return (
-    <Select className={classes.root} value={value || ''} onChange={onChange}>
+    <Select className={classes.inputRoot} classes={{ root: classes.root }} value={value || ''} onChange={onChange}>
       <MenuItem value={''}>&nbsp;</MenuItem>
       <MenuItem value={'low'}>Low</MenuItem>
       <MenuItem value={'medium'}>Medium</MenuItem>
