@@ -30,11 +30,10 @@ export const Tigris: React.FC = () => {
       plugCol('A1'),
       plugCol('B1'),
       plugCol('C1'),
-      plugCol('Tray'),
+      { headerName: 'Check All', field: 'checkAll', width: 100, cellRenderer: 'checkboxCheckAll' },
       { headerName: 'disableCellEditor', field: 'disableCellEditor', hide: true, width: 0 },
       { headerName: 'cellRenderer', field: 'cellRenderer', hide: true, width: 0 },
       { headerName: 'checkAllable', field: 'checkAllable', hide: true, width: 0 },
-      { headerName: 'Check All', field: 'checkAll', width: 100, cellRenderer: 'checkboxCheckAll' },
     ],
     rowData: [
       {
@@ -52,6 +51,15 @@ export const Tigris: React.FC = () => {
         checkAllable: true,
         disableCellEditor: true,
         metricName: 'Underdeveloped Shoot',
+      },
+      {
+        cellRenderer: 'checkBoxMetric',
+        checkAllable: true,
+        disableCellEditor: true,
+        metricName: 'Overdeveloped Shoot',
+        A1: true,
+        B1: true,
+        C1: true,
       },
     ],
   };
