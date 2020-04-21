@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Button, useTheme } from '@material-ui/core';
 import { AgGridReact } from '@ag-grid-community/react';
-import { AllCommunityModules } from '@ag-grid-community/all-modules';
+import { AllCommunityModules, CellKeyPressEvent } from '@ag-grid-community/all-modules';
 
 import { useStyles } from './styles';
 
@@ -17,6 +17,15 @@ export const SeedlingQaTable: React.FC<SeedlingQaProps> = (props) => {
   const theme = useTheme();
   const width = calculateWidth(props.agGridProps.columnDefs);
   const onClick = (event: React.MouseEvent<HTMLElement>) => console.log();
+  const onCellKeyPress = (event: CellKeyPressEvent) => {
+    if (
+      event.colDef.cellRenderer === 'deferToCellRendererRowValue' &&
+      event.node.data.cellRenderer === 'checkBoxMetric'
+    ) {
+      console.log(event.value);
+      event.node.setDataValue(event.colDef.field, !event.value);
+    }
+  };
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" height="100vh">
@@ -26,6 +35,7 @@ export const SeedlingQaTable: React.FC<SeedlingQaProps> = (props) => {
           rowHeight={48}
           singleClickEdit={true}
           modules={AllCommunityModules}
+          onCellKeyPress={onCellKeyPress}
           {...props.agGridProps}
         ></AgGridReact>
       </div>
