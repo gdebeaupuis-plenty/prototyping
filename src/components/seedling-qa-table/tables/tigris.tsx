@@ -5,6 +5,7 @@ import {
   SelectGapAndPlug,
   TextFieldMetric,
   DeferToCellRendererRowValue,
+  FormControl,
 } from '../cell-renderer-framework';
 import { SeedlingQaTable } from '../index';
 
@@ -24,9 +25,10 @@ export const Tigris: React.FC = () => {
       selectGapAndPlug: SelectGapAndPlug,
       textFieldMetric: TextFieldMetric,
       deferToCellRendererRowValue: DeferToCellRendererRowValue,
+      formControl: FormControl,
     },
     columnDefs: [
-      { headerName: 'Quality Metric', field: 'metricName', width: 220 },
+      { headerName: 'Quality Metric', field: 'metricName', cellRenderer: 'formControl', width: 220 },
       plugCol('A1'),
       plugCol('B1'),
       plugCol('C1'),
@@ -39,6 +41,10 @@ export const Tigris: React.FC = () => {
       {
         checkAllable: false,
         metricName: 'Seedling Count*',
+        // @todo is there a better way to declare validation?
+        requires: ['A1', 'B1', 'C1'],
+        errors: [],
+        validates: (value) => value > 10,
       },
       {
         cellRenderer: 'selectGapAndPlug',

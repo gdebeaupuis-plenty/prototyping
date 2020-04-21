@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Button, useTheme } from '@material-ui/core';
 import { AgGridReact } from '@ag-grid-community/react';
-import { AllCommunityModules, CellKeyPressEvent } from '@ag-grid-community/all-modules';
+import { AllCommunityModules, GridReadyEvent, CellKeyPressEvent } from '@ag-grid-community/all-modules';
 
 import { useStyles } from './styles';
 
@@ -15,8 +15,39 @@ export interface SeedlingQaProps {
 export const SeedlingQaTable: React.FC<SeedlingQaProps> = (props) => {
   useStyles();
   const theme = useTheme();
+  const [gridReadyEvent, onGridReady] = React.useState<GridReadyEvent>();
   const width = calculateWidth(props.agGridProps.columnDefs);
-  const onClick = (event: React.MouseEvent<HTMLElement>) => console.log();
+
+  // @todo cleanup this and improve re-usability
+  const isGridValid = () => {
+    gridReadyEvent.api.getModel().forEachNode((rowNode) => {
+      if (!rowNode.data.requires) {
+        return;
+      }
+
+      const errors = [];
+
+      rowNode.data.requires
+        .map((requiredField) => [requiredField, rowNode.data[requiredField]])
+        .forEach(([requiredField, value]) => {
+          if (!rowNode.data.validates(value)) {
+            console.log('invalid', rowNode.rowIndex, requiredField, value);
+            errors.push(requiredField);
+            rowNode.setData({ ...rowNode.data, errors });
+          }
+        });
+
+      console.log(rowNode.data);
+
+      gridReadyEvent.api.refreshCells({ force: true });
+    });
+  };
+
+  const onClick = (event: React.MouseEvent<HTMLElement>) => {
+    isGridValid();
+  };
+
+  // @todo how do we move this with checkBoxMetric
   const onCellKeyPress = (event: CellKeyPressEvent) => {
     if (
       event.colDef.cellRenderer === 'deferToCellRendererRowValue' &&
@@ -35,6 +66,7 @@ export const SeedlingQaTable: React.FC<SeedlingQaProps> = (props) => {
           rowHeight={48}
           singleClickEdit={true}
           modules={AllCommunityModules}
+          onGridReady={onGridReady}
           onCellKeyPress={onCellKeyPress}
           {...props.agGridProps}
         ></AgGridReact>
