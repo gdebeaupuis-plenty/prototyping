@@ -5,6 +5,7 @@ import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 import { Tigris } from './components/seedling-qa-table/tables/tigris';
 import { FormPrototyping } from './components/form-prototyping';
 import { Test } from './components/form-prototyping/test';
+import { Grid } from './components/grid';
 
 function Home() {
   return (
@@ -16,6 +17,7 @@ function Home() {
           <Link to="/seedling-qa/orca">Seedling QA Table: Orca</Link>
           <Link to="/select">Form prototyping</Link>
           <Link to="/test">Test</Link>
+          <Link to="/grid">Grid</Link>
         </Box>
       </Card>
     </Box>
@@ -33,6 +35,7 @@ function App() {
           <Route exact path="/seedling-qa/tigris" component={Tigris} />
           <Route exact path="/select" component={FormPrototyping} />
           <Route exact path="/test" component={Test} />
+          <Route exact path="/grid" component={Grid} />
         </Switch>
       </BrowserRouter>
     </ThemeProvider>
