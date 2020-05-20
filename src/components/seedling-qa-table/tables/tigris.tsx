@@ -14,7 +14,10 @@ const plugCol = (name) => ({
   headerName: name,
   field: name,
   width: 100,
-  editable: (params) => !params.data.disableCellEditor,
+  editable: (params) => {
+    const isHiddenColumn = params.data.hideColumns && params.data.hideColumns.includes(params.colDef.field);
+    return !isHiddenColumn && !params.data.disableCellEditor;
+  },
   cellRenderer: 'deferToCellRendererRowValue',
 });
 
@@ -37,35 +40,29 @@ export const Tigris: React.FC = () => {
       { headerName: 'Check All', field: 'checkAll', width: 100, cellRenderer: 'checkboxCheckAll' },
       { headerName: 'disableCellEditor', field: 'disableCellEditor', hide: true, width: 0 },
       { headerName: 'cellRenderer', field: 'cellRenderer', hide: true, width: 0 },
-      { headerName: 'checkAllable', field: 'checkAllable', hide: true, width: 0 },
       { headerName: 'hideColumns', field: 'hideColumns', hide: true, width: 0 },
     ],
     rowData: [
       {
-        checkAllable: false,
         hideColumns: ['checkAll', 'others'],
         metricName: 'Seedling Count*',
-        // @todo is there a better way to declare validation?
         requires: ['A1', 'B1', 'C1'],
         errors: [],
         validates: (value) => value > 10,
       },
       {
         cellRenderer: 'selectGapAndPlug',
-        checkAllable: false,
         hideColumns: ['checkAll', 'others'],
         disableCellEditor: true,
         metricName: 'Gap & Plug',
       },
       {
         cellRenderer: 'checkBoxMetric',
-        checkAllable: true,
         disableCellEditor: true,
         metricName: 'Underdeveloped Shoot',
       },
       {
         cellRenderer: 'checkBoxMetric',
-        checkAllable: true,
         disableCellEditor: true,
         metricName: 'Overdeveloped Shoot',
         A1: true,
