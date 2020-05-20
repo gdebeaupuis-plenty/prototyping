@@ -4,7 +4,7 @@ import { ICellRendererParams } from '@ag-grid-community/all-modules';
 
 import { useCheckAllHelpers } from '../hooks/use-check-all-helpers';
 
-const CheckAll: React.FC<ICellRendererParams> = (props) => {
+export const CheckboxCheckAll: React.FC<ICellRendererParams> = (props) => {
   const { isRowFullyChecked, markRowAsChecked } = useCheckAllHelpers(props);
   props.setValue(isRowFullyChecked);
 
@@ -14,12 +14,4 @@ const CheckAll: React.FC<ICellRendererParams> = (props) => {
   };
 
   return <Checkbox color="primary" checked={props.value} onChange={handleChange} />;
-};
-
-export const CheckboxCheckAll: React.FC<ICellRendererParams> = (props) => {
-  if (!props.data.checkAllable) {
-    return <span></span>;
-  }
-
-  return <CheckAll {...props} />;
 };

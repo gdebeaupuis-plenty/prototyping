@@ -6,6 +6,7 @@ import {
   TextFieldMetric,
   DeferToCellRendererRowValue,
   FormControl,
+  withHideColumns,
 } from '../cell-renderer-framework';
 import { SeedlingQaTable } from '../index';
 
@@ -20,26 +21,29 @@ const plugCol = (name) => ({
 export const Tigris: React.FC = () => {
   const state = {
     frameworkComponents: {
-      checkboxCheckAll: CheckboxCheckAll,
-      checkBoxMetric: CheckboxMetric,
-      selectGapAndPlug: SelectGapAndPlug,
-      textFieldMetric: TextFieldMetric,
-      deferToCellRendererRowValue: DeferToCellRendererRowValue,
-      formControl: FormControl,
+      checkboxCheckAll: withHideColumns(CheckboxCheckAll),
+      checkBoxMetric: withHideColumns(CheckboxMetric),
+      selectGapAndPlug: withHideColumns(SelectGapAndPlug),
+      textFieldMetric: withHideColumns(TextFieldMetric),
+      deferToCellRendererRowValue: withHideColumns(DeferToCellRendererRowValue),
+      formControl: withHideColumns(FormControl),
     },
     columnDefs: [
       { headerName: 'Quality Metric', field: 'metricName', cellRenderer: 'formControl', width: 220 },
       plugCol('A1'),
       plugCol('B1'),
       plugCol('C1'),
+      plugCol('others'),
       { headerName: 'Check All', field: 'checkAll', width: 100, cellRenderer: 'checkboxCheckAll' },
       { headerName: 'disableCellEditor', field: 'disableCellEditor', hide: true, width: 0 },
       { headerName: 'cellRenderer', field: 'cellRenderer', hide: true, width: 0 },
       { headerName: 'checkAllable', field: 'checkAllable', hide: true, width: 0 },
+      { headerName: 'hideColumns', field: 'hideColumns', hide: true, width: 0 },
     ],
     rowData: [
       {
         checkAllable: false,
+        hideColumns: ['checkAll', 'others'],
         metricName: 'Seedling Count*',
         // @todo is there a better way to declare validation?
         requires: ['A1', 'B1', 'C1'],
@@ -49,6 +53,7 @@ export const Tigris: React.FC = () => {
       {
         cellRenderer: 'selectGapAndPlug',
         checkAllable: false,
+        hideColumns: ['checkAll', 'others'],
         disableCellEditor: true,
         metricName: 'Gap & Plug',
       },
